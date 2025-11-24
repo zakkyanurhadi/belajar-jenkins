@@ -2,59 +2,32 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'node17'   // Sesuaikan dengan nama Node yang kamu daftarkan di Jenkins (Global Tool Configuration)
+        // Nama ini HARUS SAMA dengan yang kamu buat di Tahap 1 tadi
+        nodejs 'node20'
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                echo '📥 Pulling source code from GitHub...'
-                git branch: 'main',
-                    url: 'https://github.com/zakkyanurhadi/belajar-jenkins.git'
+                // Mengambil kode dari branch main
+                git branch: 'main', url: 'https://github.com/zakkyanurhadi/belajar-jenkins.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo '📦 Installing npm packages...'
-                sh 'npm install'
+                echo '🚀 Sedang menginstall library...'
+                // Install sesuai package.json
+                sh 'npm install' 
             }
         }
 
-        stage('Run Tests') {
-            when {
-                expression { fileExists('package.json') && sh(script: "jq '.scripts.test' package.json", returnStatus: true) == 0 }
-            }
+        stage('Run Test') {
             steps {
-                echo '🧪 Running tests...'
+                echo '🧪 Sedang menjalankan test...'
+                // Menjalankan script "test" yang ada di package.json
                 sh 'npm test'
             }
-        }
-
-        stage('Build') {
-            when {
-                expression { fileExists('package.json') }
-            }
-            steps {
-                echo '🏗️ Running build script (if exists)...'
-                sh 'npm run build || echo "No build script found, skipping."'
-            }
-        }
-
-        stage('Start App') {
-            steps {
-                echo '🚀 Starting application...'
-                sh 'npm start'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo '🎉 Build completed successfully!'
-        }
-        failure {
-            echo '❌ Build failed!'
         }
     }
 }
