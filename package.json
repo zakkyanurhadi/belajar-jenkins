@@ -1,0 +1,12 @@
+{
+  "name": "jenkins-freestyle-demo",
+  "version": "1.0.0",
+  "description": "Demo Freestyle Jenkins dengan Ngrok",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Test berjalan... OK\" && exit 0"
+  },
+  "author": "Anda",
+  "license": "ISC"
+}
