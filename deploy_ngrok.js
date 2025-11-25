@@ -5,6 +5,12 @@ const app = require('./app'); // Import app yang sudah jalan
   console.log("--- Memulai Deploy Testing dengan Ngrok ---");
   
   try {
+    // Kill semua tunnel ngrok yang masih hidup
+    await ngrok.kill().catch(() => {});
+
+    // Tunggu sebentar supaya port bebas
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     // Menghubungkan port 3000 ke internet
     // FIX: Menambahkan authtoken karena Ngrok mewajibkannya sekarang.
     // Tanpa token, process ngrok akan mati dan menyebabkan error 127.0.0.1:4040
