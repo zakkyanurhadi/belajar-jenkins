@@ -10,7 +10,7 @@ const app = require('./app'); // Import app yang sudah jalan
     // Tanpa token, process ngrok akan mati dan menyebabkan error 127.0.0.1:4040
     const url = await ngrok.connect({
       addr: 3000,
-      authtoken: "2wQdCQY3cXI0MJwYsZed5CYwrTU_5g1wJfnTACheRQdJKBvL5", // <--- WAJIB DIISI
+      authtoken: "2wQdCQY3cXI0MJwYsZed5CYwrTU_5g1wJfnTACheRQdJKBvL5", // <--- Token Ngrok Anda
       region: 'ap' // Opsional: Asia Pacific agar lebih cepat
     });
     
