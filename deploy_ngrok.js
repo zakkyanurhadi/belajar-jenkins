@@ -6,8 +6,13 @@ const app = require('./app'); // Import app yang sudah jalan
   
   try {
     // Menghubungkan port 3000 ke internet
-    // Catatan: Jika gagal, pastikan Anda punya authtoken ngrok atau koneksi lancar
-    const url = await ngrok.connect(3000);
+    // FIX: Menambahkan authtoken karena Ngrok mewajibkannya sekarang.
+    // Tanpa token, process ngrok akan mati dan menyebabkan error 127.0.0.1:4040
+    const url = await ngrok.connect({
+      addr: 3000,
+      authtoken: "2wQdCQY3cXI0MJwYsZed5CYwrTU_5g1wJfnTACheRQdJKBvL5", // <--- WAJIB DIISI
+      region: 'ap' // Opsional: Asia Pacific agar lebih cepat
+    });
     
     console.log("==========================================");
     console.log("   APLIKASI ONLINE DI URL BERIKUT:");
@@ -26,7 +31,6 @@ const app = require('./app'); // Import app yang sudah jalan
   } catch (error) {
     console.error("Gagal connect ke Ngrok:", error);
     // Kita exit 0 agar build tetap dianggap sukses meski ngrok gagal
-    // (Opsional: ganti ke 1 jika ingin build gagal saat ngrok error)
     process.exit(0); 
   }
 })();
