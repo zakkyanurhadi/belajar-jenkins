@@ -1,33 +1,28 @@
 const http = require('http');
-const server = require('./app');
+const app = require('./app'); // Import app untuk dijalankan
 
-console.log('\n=== 🧪 Menjalankan Unit Test Sederhana ===\n');
+console.log('--- Menjalankan Unit Test Sederhana ---');
 
-// Jalankan server dulu
-server.start();
+// Cek apakah halaman /health merespon 'OK'
+http.get('http://localhost:3000/health', (res) => {
+  let data = '';
 
-setTimeout(() => {
-  http.get('http://localhost:3000/health', (res) => {
-    let data = '';
+  res.on('data', (chunk) => { data += chunk; });
 
-    res.on('data', chunk => data += chunk);
-
-    res.on('end', () => {
-      if (res.statusCode === 200 && data === 'OK') {
-        console.log('✅ TEST SUKSES: Webserver sehat!\n');
-        server.stop();
-        process.exit(0);
-      } else {
-        console.error('❌ TEST GAGAL: Response tidak sesuai!\n');
-        server.stop();
-        process.exit(1);
-      }
-    });
-
-  }).on('error', err => {
-    console.error(`❌ TEST GAGAL: Tidak bisa connect ke server -> ${err.message}\n`);
-    server.stop();
-    process.exit(1);
+  res.on('end', () => {
+    if (res.statusCode === 200 && data === 'OK') {
+      console.log('✅ TEST SUKSES: Webserver sehat!');
+      app.close(); // Matikan server setelah test selesai
+      process.exit(0); // Kode 0 artinya Sukses
+    } else {
+      console.error('❌ TEST GAGAL: Respon tidak sesuai');
+      app.close();
+      process.exit(1); // Kode 1 artinya Gagal (Jenkins akan stop)
+    }
   });
 
-}, 500);
+}).on('error', (err) => {
+  console.error('❌ TEST GAGAL: Tidak bisa connect ke server. ' + err.message);
+  app.close();
+  process.exit(1);
+});
