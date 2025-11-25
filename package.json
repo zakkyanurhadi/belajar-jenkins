@@ -1,11 +1,16 @@
 {
-  "name": "jenkins-freestyle-demo",
+  "name": "jenkins-webserver-ngrok",
   "version": "1.0.0",
-  "description": "Demo Freestyle Jenkins dengan Ngrok",
+  "description": "Webserver dengan Auto Ngrok Deploy untuk Jenkins",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Test berjalan... OK\" && exit 0"
+    "test": "node test_script.js",
+    "deploy-test": "node deploy_ngrok.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "ngrok": "^5.0.0-beta.2"
   },
   "author": "Anda",
   "license": "ISC"
