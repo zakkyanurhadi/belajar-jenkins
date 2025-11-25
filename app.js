@@ -20,7 +20,7 @@ app.get('/health', (req, res) => {
 
 // Kita export servernya agar bisa dimatikan (close) oleh script lain
 const server = app.listen(port, () => {
-  console.log(`Webserver berjalan di http://localhost:${port}`);
+  console.log(`Webserver berjalan1 di http://localhost:${port}`);
 });
 
 module.exports = server;
